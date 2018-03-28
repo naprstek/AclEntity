@@ -1,0 +1,34 @@
+{
+    "name": "naprstek/acl-entity",
+    "type": "library",
+    "description": "A set of User Defined Functions to Doctrine 2, basically for MSSQL.",
+    "keywords": ["zf3", "ACL", "entity"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {"name": "Vladimir Naprstek", "email": "vladimir.naprstek@gmail.com"}
+    ],
+    "require": {
+        "php": ">=7.0",
+        "zendframework/zend-form": "^2.11",
+        "zendframework/zend-permissions-acl": "^2.6",
+        "zendframework/zend-eventmanager": "^3.2",
+        "zendframework/zend-code": "^3.3",
+        "doctrine/annotations": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {"AclEntity\\" : "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": { "AclEntity\\Tests\\": "tests/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
