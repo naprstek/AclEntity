@@ -52,13 +52,13 @@ $this->addRole(new Role('external'));
 
 //Resources: it is our data propertis
 $my = new Element();
-foreach($my->>getAllProperties() as $resource) {
+foreach($my->getAllProperties() as $resource) {
     $this->addResource(new Resource($resource));
 }
 
 //define privilleges
-$this->allow('internal', $my->->getAclProperties('internal', 'view'), 'view');
-$this->allow('internal', $my->->getAclProperties('internal', 'edit'), 'edit');
-$this->allow('external', $my->->getAclProperties('external', 'view'), 'view');
-$this->allow('external', $my->->getAclProperties('external', 'edit'), 'edit');
+$this->allow('internal', $my->getAclProperties('internal', 'view'), 'view');
+$this->allow('internal', $my->getAclProperties('internal', 'edit'), 'edit');
+$this->allow('external', $my->getAclProperties('external', 'view'), 'view');
+$this->allow('external', $my->getAclProperties('external', 'edit'), 'edit');
 ```
