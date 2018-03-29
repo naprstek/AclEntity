@@ -1,7 +1,7 @@
 {
     "name": "naprstek/acl-entity",
     "type": "library",
-    "description": "A set of User Defined Functions to Doctrine 2, basically for MSSQL.",
+    "description": "Support for entities annotated for ACL.",
     "keywords": ["zf3", "ACL", "entity"],
     "license": "BSD-3-Clause",
     "authors": [
