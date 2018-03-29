@@ -5,7 +5,7 @@ To install this library, run the command below and you will get the latest
 version:
 
 ```sh
-composer require naprstek/doctrine-functions
+composer require naprstek/acl-entity
 ```
 
 # Usage
