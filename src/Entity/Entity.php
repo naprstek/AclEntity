@@ -2,7 +2,7 @@
 
 namespace AclEntity\Entity;
 
-use AclEntity\Annotation\Acl as AE;
+use AclEntity\Annotation\Acl;
 use AclEntity\IEntity;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Form\Annotation\AnnotationBuilder;
@@ -13,15 +13,16 @@ use Zend\Form\Annotation\AnnotationBuilder;
 abstract class Entity implements IEntity
 {
     /**
-     * generated ACL List [role -> [right -> [items]]]
+     * generated ACL List [role -> [privillege -> [items]]]
+     * Internal purpose only.
      */
-    protected $aclList = null;
+    protected $_aclList = null;
 
     /**
      * constructor.
      * @param array $data parameters of entity, keys corresponds to property names, types are preserved
      */
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
@@ -32,25 +33,25 @@ abstract class Entity implements IEntity
 
     protected function parseAcl()
     {
-        $this->aclList = [];
+        $this->_aclList = [];
 
         $builder = new AnnotationBuilder();
         $parser = $builder->getAnnotationParser();
         $parser->registerAnnotation("AclEntity\Annotation\Acl");
-
         $annotationManager = $builder->getAnnotationManager();
         $annotationManager->attach($parser);
-        
+
         $reflection = new ClassReflection($this);
         foreach ($reflection->getProperties() as $property) {
             $annotations = $property->getAnnotations($annotationManager);
             foreach ($annotations as $annotation) {
                 //only AclEntity\Annotation\Acl
-                if ($annotation instanceof AE) {
+                if ($annotation instanceof Acl) {
                     $acl = $annotation->getAcl();
-                    foreach ($acl as $right => $roles) {
+                    $this->_aclList['__properties__'][] = $property->getName();
+                    foreach ($acl as $privillege => $roles) {
                         foreach ($roles as $role) {
-                            $this->aclList[$role][$right][] = $property->getName();
+                            $this->_aclList[$role][$privillege][] = $property->getName();
                         }
                     }
                 }
@@ -58,19 +59,31 @@ abstract class Entity implements IEntity
         }
     }
 
-    public function getItems(string $role, string $right): array
+    /**
+     * Returns list of entity properties conforms role and privillege annotations.
+     *
+     * @param string $role Name of role (used in annotations)
+     * @param string $privillege Name of privillege (used in annotations)
+     * @return array List of property names.
+     */
+    public function getAclProperties(string $role, string $privillege): array
     {
-        if (is_null($this->aclList)) {
+        if (is_null($this->_aclList)) {
             $this->parseAcl();
         }
-        return $this->aclList[$role][$right] ?? [];
+        return $this->_aclList[$role][$privillege] ?? [];
     }
 
-    public function getAclList(): array
+    /**
+     * Returns list of all properties described with Acl annotation
+     * @return array List of property names.
+     */
+    public function getAllProperties(): array
     {
-        if (is_null($this->aclList)) {
+        if (is_null($this->_aclList)) {
             $this->parseAcl();
         }
-        return $this->aclList;
+        return $this->_aclList['__properties__'];
     }
+
 }

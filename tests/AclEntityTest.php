@@ -11,26 +11,27 @@ class AclEntityTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
-        $this->entity = new Element([]);
-    }
-
-    public function testAcl()
-    {
-        $aclList = $this->entity->getAclList();
-        $this->assertGreaterThan(0, count($aclList));
+        $this->entity = new Element();
     }
 
     public function testRead()
     {
         $elements = ['id', 'name'];
-        $roles = $this->entity->getItems('internal', 'view');
+        $roles = $this->entity->getAclProperties('internal', 'view');
         $this->assertEquals($elements, $roles);
     }
 
     public function testWrite()
     {
         $elements = ['value'];
-        $roles = $this->entity->getItems('internal', 'edit');
+        $roles = $this->entity->getAclProperties('internal', 'edit');
         $this->assertEquals($elements, $roles);
+    }
+
+    public function testProperty()
+    {
+        $elements = ['id', 'name', 'value'];
+        $props = $this->entity->getAllProperties();
+        $this->assertEquals($elements, $props);
     }
 }

@@ -6,5 +6,5 @@ interface IEntity {
     /**
      * returns list of properties
      */
-    public function getItems(string $role, string $right) : array;
+    public function getAclProperties(string $role, string $right) : array;
 }
