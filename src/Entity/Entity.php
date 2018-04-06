@@ -4,8 +4,9 @@ namespace AclEntity\Entity;
 
 use AclEntity\Annotation\Acl;
 use AclEntity\IEntity;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Zend\Code\Reflection\ClassReflection;
-use Zend\Form\Annotation\AnnotationBuilder;
 
 /**
  *
@@ -35,15 +36,11 @@ abstract class Entity implements IEntity
     {
         $this->_aclList = [];
 
-        $builder = new AnnotationBuilder();
-        $parser = $builder->getAnnotationParser();
-        $parser->registerAnnotation("AclEntity\Annotation\Acl");
-        $annotationManager = $builder->getAnnotationManager();
-        $annotationManager->attach($parser);
-
+        $doctrineAnnotationReader = new AnnotationReader();
+        AnnotationRegistry::registerFile(__DIR__ . '/../Annotation/Acl.php');
         $reflection = new ClassReflection($this);
         foreach ($reflection->getProperties() as $property) {
-            $annotations = $property->getAnnotations($annotationManager);
+            $annotations = $doctrineAnnotationReader->getPropertyAnnotations($property);
             foreach ($annotations as $annotation) {
                 //only AclEntity\Annotation\Acl
                 if ($annotation instanceof Acl) {
@@ -85,5 +82,4 @@ abstract class Entity implements IEntity
         }
         return $this->_aclList['__properties__'];
     }
-
 }

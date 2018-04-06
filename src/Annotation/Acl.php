@@ -2,7 +2,7 @@
 
 namespace AclEntity\Annotation;
 
-use Zend\Form\Annotation\AbstractArrayAnnotation;
+use Doctrine\ORM\Mapping\Annotation;
 
 /**
  * Role annotation
@@ -13,8 +13,10 @@ use Zend\Form\Annotation\AbstractArrayAnnotation;
  *
  * @Annotation
  */
-class Acl extends AbstractArrayAnnotation
+class Acl implements Annotation
 {
+    public $value;
+
     /**
      * Retrieve the options
      *

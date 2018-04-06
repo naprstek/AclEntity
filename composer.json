@@ -9,11 +9,11 @@
     ],
     "require": {
         "php": ">=7.0",
-        "zendframework/zend-form": "^2.11",
         "zendframework/zend-permissions-acl": "^2.6",
         "zendframework/zend-eventmanager": "^3.2",
         "zendframework/zend-code": "^3.3",
-        "doctrine/annotations": "^1.6"
+        "doctrine/annotations": "^1.6",
+        "doctrine/doctrine-orm-module": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
